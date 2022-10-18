@@ -8,11 +8,11 @@ Current Patients | Doctor's Portal
 <h1>Current Patients</h1>
 
 {% for patient in patients %}
-<a href="{% 'patients_detail' patient.id"> 
+<a href="{% 'patients_detail' patient.id %}"> 
     <div class="card">
         <div class="card-content">
             <span class="card-title">{{ patient.name }}</span>
-            {% if patient.age >0 %}
+            {% if patient.age > 0 %}
             <p>Age: {{ patient.age }}</p>
             {% else %}
             <p>Age: Infant</p>
