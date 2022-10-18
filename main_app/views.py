@@ -25,6 +25,7 @@ class PatientCreate(CreateView):
 class PatientUpdate(UpdateView):
     model = Patient
     fields = ['chief_complaint', 'current_condition', 'past_medical_history']
+    success_url = '/patients/'
 
 class PatientDelete(DeleteView):
     model = Patient

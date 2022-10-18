@@ -14,4 +14,4 @@ def __str__(self):
     return self.name
 
 def get_absolute_url(self):
-    return reverse('detail', kwargs={'patient_id': self.id})    
+    return reverse('patients_detail', kwargs={'patient_id': self.id})    
