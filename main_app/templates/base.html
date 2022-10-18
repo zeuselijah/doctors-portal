@@ -27,8 +27,9 @@
             </li>
           </ul>
           <ul class="right">
-            <li><a href="/about">About</a></li>
-            <li><a href="/patients">Current Patients</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'patients_create' %}">Add a Patient</a></li>
+            <li><a href="{% url 'patients_index' %}">Current Patients</a></li>
           </ul>
         </div>
       </nav>
