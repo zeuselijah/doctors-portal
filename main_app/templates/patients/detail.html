@@ -32,47 +32,95 @@ Information for {{ patient.name }} | Doctor's Portal
       </div>
     </div>
   </div>
-  <hr />
-  <div class="row">
-    <div class="col s6">
-      <h3>{{ patient.name }} Prescription</h3>
-      {% if patient.prescription.count %} {% for prescription in patient.prescriptions.all %}
+  <div class="col s6">
+    <form action="{% url 'add_prescriptionsGiven' patient.id %}" method="POST">
+      {% csrf_token %}
+      {{ prescriptionsGiven_form.as_p }}
+      <input type="submit" class="btn blue" value="Add Prescriptions Given" />
+    </form>
+    <table class="striped">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Prescriptions Given</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for prescriptiongiven in patient.prescriptions_given_set.all %}
+        <tr>
+          <td>{{ prescriptiongiven.date }}</td>
+          <td>{{ prescriptiongiven.time }}</td>
+          <td>{{ prescriptiongiven.get_prescriptionsGiven_display }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr />
+
+<div class="row">
+  <div class="col s6">
+    <h3>{{ patient.name }} Prescription</h3>
+    {% if patient.prescriptions.count %} {% for prescription in patient.prescriptions.all %}
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">
+           {{ prescription.name.capitalize }} {{ prescription.dosage }}
+        </span>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h5>{{ patient.name }} has no prescriptions</h5>
+    {% endif %}
+  </div>
+  <div class="col s6">
+    <h3>Available Prescriptions</h3>
+    {% if prescriptions.count %}
+      {% for prescription in prescriptions.all %}
       <div class="card">
         <div class="card-content">
           <span class="card-title">
-           {{ prescription.name.capitalize }} {{ prescription.dosage }}
+          {{ prescription.name.capitalize}} {{ prescription.dosage }} 
           </span>
+        </div>
+        <div class="card-action">
+          <form action="{% url 'assoc_prescription' patient.id prescription.id %}" method="POST">
+            {% csrf_token %}
+            <input class="" type="submit" value="Add">
+          </form>
         </div>
       </div>
       {% endfor %}
-      {% else %}
-      <h5>{{ patient.name }} has no prescriptions</h5>
-      {% endif %}
-    </div>
-    <div class="col s6">
-      <h3>Available Prescriptions</h3>
-      {% if prescriptions.count %}
-        {% for prescription in prescriptions.all %}
-        <div class="card">
-          <div class="card-content">
-            <span class="card-title">
-            {{ prescription.name.capitalize}} {{ prescription.dosage }} 
-            </span>
-          </div>
-          <div class="card-action">
-            <form action="{% url 'assoc_prescription' patient.id prescription.id %}" method="POST">
-              {% csrf_token %}
-              <input class="" type="submit" value="Add">
-            </form>
-          </div>
-        </div>
-        {% endfor %}
-        {% else %}
-        <h5>{{ patient.name }} has all available prescriptions</h5>
-        {% endif %}
-    </div>
+    {% else %}
+    <h5>{{ patient.name }} has all available prescriptions</h5>
+    {% endif %}
   </div>
-</div>  
+</div>
+
+
+<script>
+  const dateField = document.getElementById('id_date');
+  const timeField = document.getElementById('id_time');
+  const prescriptionGivenSelect = document.getElementById('id_prescriptionsGiven');
+
+  M.Datepicker.init(dateField, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  });
+
+  M.Timepicker.init(timeField, {
+    defaultTime: 'now',
+    twelveHour: true
+  });
+
+  M.FormSelect.init(prescriptionGivenSelect);
+</script>  
   
 
 

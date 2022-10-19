@@ -40,8 +40,8 @@ class Prescriptions_Given(models.Model):
 
     date = models.DateField('Prescription Date')
     time = models.TimeField(auto_now=False, auto_now_add=False)
-    prescription_given = models.CharField(max_length=1, choices=PRESCRIPTIONS_GIVEN, default=PRESCRIPTIONS_GIVEN[0][0])
+    prescriptionsGiven = models.CharField(max_length=1, choices=PRESCRIPTIONS_GIVEN, default=PRESCRIPTIONS_GIVEN[0][0])
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.get_prescription_given_display()} on {self.date} at {self.time}'
+        return f'{self.get_prescriptionsGiven_display()} on {self.date} at {self.time}'
