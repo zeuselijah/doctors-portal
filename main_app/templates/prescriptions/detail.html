@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{{ object.name }} | Doctor's Portal
+
+{% endblock %}
+
+{% block content %}
+
+<h1>Prescriptions</h1>
+
+<div class="card">
+    <div class="card-content">
+        <span class="card-title">
+            A <span class="{{ object.name.lower }}-text">{{ object.name.capitalize }}</span> {{ object.dosage }}
+        </span>
+    </div>
+    <div class="card-action">
+        <a href="{% url 'prescriptions_update' object.id %}">Update</a>
+        <a href="{% url 'prescriptions_delete' object.id %}">Delete</a>
+    </div>
+</div>
+
+{% endblock %}

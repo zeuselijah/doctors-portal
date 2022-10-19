@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+All Prescriptions | Doctor's Portal
+{% endblock %}
+
+{% block content %}
+<h1>All Prescriptions</h1>
+
+{% for prescription in object_list %}
+<a href="{% url 'prescriptions_detail' prescription.id%}">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">
+                A <span class="{{ prescription.dosage.lower }}">{{ prescription.dosage.capitalize }}</span>
+                {{ prescription.name }}
+            </span>
+        </div>
+    </div>
+</a>
+{% endfor %}
+
+{% endblock %}
