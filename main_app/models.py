@@ -1,6 +1,7 @@
 from random import choices
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Prescription(models.Model):
@@ -21,6 +22,7 @@ class Patient(models.Model):
     current_condition = models.TextField(max_length=500)
     past_medical_history = models.TextField(max_length=500)
     prescriptions = models.ManyToManyField(Prescription)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 def __str__(self):
     return self.name

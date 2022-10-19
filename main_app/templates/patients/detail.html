@@ -71,6 +71,12 @@ Information for {{ patient.name }} | Doctor's Portal
            {{ prescription.name.capitalize }} {{ prescription.dosage }}
         </span>
       </div>
+      <div class="card-action">
+        <form action="{% url 'remove_prescription' patient.id prescription.id %}" method="POST">
+          {% csrf_token %}
+          <input class="" type="submit" value="Remove">
+        </form>
+      </div>
     </div>
     {% endfor %}
     {% else %}
@@ -116,7 +122,7 @@ Information for {{ patient.name }} | Doctor's Portal
 
   M.Timepicker.init(timeField, {
     defaultTime: 'now',
-    twelveHour: true
+    twelveHour: false
   });
 
   M.FormSelect.init(prescriptionGivenSelect);

@@ -16,5 +16,6 @@ urlpatterns = [
     path('prescriptions/<int:pk>/update/', views.PrescriptionsUpdate.as_view(), name='prescriptions_update'),
     path('prescriptions/<int:pk>/delete/', views.PrescriptionsDelete.as_view(), name='prescriptions_delete'),
     path('patients/<int:patient_id>/assoc_prescription/<int:prescription_id>/', views.assoc_prescription, name='assoc_prescription'),
-
+    path('patients/<int:patient_id>/remove_prescription/<int:prescription_id>/', views.remove_prescription, name='remove_prescription'),
+    path('accounts/signup/', views.signup, name='signup'),
 ]
