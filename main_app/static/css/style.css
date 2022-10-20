@@ -12,6 +12,11 @@ main {
 footer {
     padding-top: 0;
     text-align: right;
+    
+}
+
+.page-footer {
+    background-color: rgb(172, 153, 153);
 }
 
 .nav-wrapper {
