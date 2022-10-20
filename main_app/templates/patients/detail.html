@@ -31,6 +31,34 @@ Information for {{ patient.name }} | Doctor's Portal
         <a href="{% url 'patients_delete' patient.id %}">Delete</a>
       </div>
     </div>
+
+        {% for photo in patient.photo_set.all %}
+        <img class="responsive-img" 
+        src="{{ photo.url }}" 
+        alt="{{ patient.name }}"
+        />
+        <form action="{% url 'delete_photo' patient.id photo.id %}" method="POST">
+          {% csrf_token %}
+          <input type="submit" class="btn red" value="delete">
+        </form>
+
+    {% empty %}
+        <div class="card-panel blue-text center-align">
+          No Files Uploaded
+        </div>
+    {% endfor %}
+    <form 
+      action="{% url 'add_photo' patient.id %}"
+      method="POST"
+      class="card-panel"
+      enctype="multipart/form-data"
+    >
+        {% csrf_token %}
+        <input type="file" name="photo-file" />
+        <br />
+        <br />
+        <input type="submit" value="Upload Photo" class="btn blue" />
+    </form>
   </div>
   <div class="col s6">
     <form action="{% url 'add_prescriptionsGiven' patient.id %}" method="POST">

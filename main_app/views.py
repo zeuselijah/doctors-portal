@@ -5,14 +5,20 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
-from .models import Patient, Prescription
+from .models import Patient, Prescription, Photo
 
 from django.contrib.auth import login
 
-
 from .forms import PrescriptionsGivenForm
-from django.contrib.auth.forms import UserCreationForm 
+from django.contrib.auth.forms import UserCreationForm
+
+import boto3
+import uuid 
+
+S3_BASE_URL = 'https://s3.us-east-1.amazonaws.com/'
+BUCKET = 'doctors-portal-p4'
 
 
 def home(request):
@@ -55,6 +61,21 @@ def assoc_prescription(request, patient_id, prescription_id):
 
 def remove_prescription(request, patient_id, prescription_id):
     Patient.objects.get(id=patient_id).prescriptions.remove(prescription_id)
+    return redirect('patients_detail', patient_id=patient_id)
+
+def add_photo(request, patient_id):
+    photo_file = request.FILES.get('photo-file')
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key) 
+            url = f'{S3_BASE_URL}{BUCKET}/{key}'
+            photo = Photo(url=url, patient_id=patient_id)
+            photo.save()
+        except Exception as error:
+            print('An error has occured uploading or saving the photo')
+            print(error)
     return redirect('patients_detail', patient_id=patient_id)
 
 def signup(request):
@@ -113,3 +134,8 @@ class PrescriptionsDelete(LoginRequiredMixin, DeleteView):
     model = Prescription
     success_url = '/prescriptions/'
 
+class PhotoDelete(LoginRequiredMixin, DeleteView):
+    model = Photo
+
+    def get_success_url(self):
+        return reverse('patients_detail', kwargs={'patient_id': self.object.patient_id})
