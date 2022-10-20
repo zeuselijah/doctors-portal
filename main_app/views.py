@@ -82,6 +82,7 @@ class PatientsCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 class PatientsUpdate(LoginRequiredMixin, UpdateView):
+    template_name = 'patients/patient_form.html'
     model = Patient
     fields = ['chief_complaint', 'current_condition', 'past_medical_history']
     success_url = '/patients/'

@@ -14,6 +14,6 @@
   <table>
     {{ form.as_table }}
   </table>
-  <input type="submit" value="Submit!" class="btn" />
+  <input type="submit" value="{% if object %} Edit {%else %} Add Patient {% endif %}" class="btn green" />
 </form>
 {% endblock %}
