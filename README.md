@@ -6,6 +6,7 @@ that patient has and add files as it pertains to a specific patient.
 
 <br>
 <br>
+<br>
 
 
 
@@ -44,6 +45,7 @@ that patient has and add files as it pertains to a specific patient.
 <hr>
 https://doctors-portal-p4.herokuapp.com/
 
+<br>
 <br>
 <br>
 <br>
